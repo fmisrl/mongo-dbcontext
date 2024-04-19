@@ -7,7 +7,6 @@
         <RootNamespace>Fmi.Packages.Database.SourceGenerator</RootNamespace>
         <PackageId>Fmi.Packages.Database.SourceGenerator</PackageId>
 
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
