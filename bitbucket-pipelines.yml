@@ -1,0 +1,89 @@
+﻿image: mcr.microsoft.com/dotnet/sdk:8.0.203-bookworm-slim-amd64
+
+definitions:
+  services:
+    mongodb:
+      image: mongo
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: mongoadmin
+        MONGO_INITDB_ROOT_PASSWORD: mysupersecretpassword
+      ports:
+        - "27017:27017"
+  
+  steps:
+    -   step: &build
+          name: Build and Test
+          runs-on:
+            - self.hosted
+            - linux
+          size: 2x
+          caches:
+            - dotnetcore
+          services:
+            - mongodb
+          script:
+
+            - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+            - export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
+
+            - dotnet restore Fmi.Packages.sln
+            - dotnet build Fmi.Packages.sln --no-restore --configuration Release
+            - dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+
+    -   step: &quality
+          name: Qodana code quality
+          runs-on:
+            - self.hosted
+            - linux
+          size: 2x
+          caches:
+            - qodana
+          image: jetbrains/qodana-cdnet:latest
+          script:
+            - export QODANA_TOKEN=$QODANA_TOKEN
+            - qodana scan --solution ./Fmi.Packages.sln --results-dir=$BITBUCKET_CLONE_DIR/.qodana --report-dir=$BITBUCKET_CLONE_DIR/.qodana/report --cache-dir=$BITBUCKET_CLONE_DIR/.qodana/cache
+          artifacts:
+            - .qodana/report
+
+    -   step: &publish
+          name: Publish nuget packages
+          runs-on:
+            - self.hosted
+            - linux
+          caches:
+            - dotnetcore
+          script:
+            - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
+
+            - dotnet nuget add source $NUGET_URL --name PrivateArtifactsFeed --store-password-in-clear-text --username $NUGET_USER --password $ARTIFACTS_FEED_ACCESS_TOKEN
+            - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
+            - dotnet nuget push --source "PrivateArtifactsFeed" --api-key az *.nupkg
+  
+  caches:
+    qodana: .qodana/cache
+
+pipelines:
+  pull-requests:
+    '**':
+      -   parallel:
+            -   step: *build
+            -   step: *quality
+  
+  branches:
+    
+    dev:
+      -   parallel:
+            -   step: *build
+            -   step: *quality
+
+      -   step: *publish
+    
+    master:
+      -   parallel:
+            -   step: *build
+            -   step: *quality
+
+      - step: *publish
+  
+  default:
+    -   step: *build
