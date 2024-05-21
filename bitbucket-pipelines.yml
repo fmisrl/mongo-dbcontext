@@ -1,4 +1,4 @@
-﻿image: mcr.microsoft.com/dotnet/sdk:8.0.203-bookworm-slim-amd64
+﻿image: mcr.microsoft.com/dotnet/sdk:8.0.203-jammy-amd64
 
 definitions:
   services:
