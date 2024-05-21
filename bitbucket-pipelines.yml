@@ -71,16 +71,16 @@ pipelines:
   branches:
     
     dev:
-      -   parallel:
-            -   step: *build
-            -   step: *quality
+      #-   parallel:
+      -   step: *build
+      #      -   step: *quality
 
       -   step: *publish
     
     master:
-      -   parallel:
-            -   step: *build
-            -   step: *quality
+      #-   parallel:
+      -   step: *build
+      #      -   step: *quality
 
       - step: *publish
   
