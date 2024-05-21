@@ -56,7 +56,7 @@ definitions:
             - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
 
             - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
-            - dotnet nuget push -k $NUGET_API_KEY *.nupkg
+            - dotnet nuget push -k $NUGET_API_KEY Fmi.Packages.*.nupkg
   
   caches:
     qodana: .qodana/cache
