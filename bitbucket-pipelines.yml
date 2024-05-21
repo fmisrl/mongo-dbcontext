@@ -55,9 +55,8 @@ definitions:
           script:
             - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
 
-            - dotnet nuget add source $NUGET_URL --name PrivateArtifactsFeed --store-password-in-clear-text --username $NUGET_USER --password $ARTIFACTS_FEED_ACCESS_TOKEN
             - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
-            - dotnet nuget push --source "PrivateArtifactsFeed" --api-key az *.nupkg
+            - dotnet nuget push --source fmisrl --api-key $NUGET_API_KEY *.nupkg
   
   caches:
     qodana: .qodana/cache
