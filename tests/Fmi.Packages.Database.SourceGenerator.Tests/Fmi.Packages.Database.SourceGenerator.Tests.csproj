@@ -6,4 +6,15 @@
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Update="JunitXml.TestLogger" Version="4.0.254" />
+      <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+      <PackageReference Update="Moq" Version="4.20.71" />
+      <PackageReference Update="xunit" Version="2.9.0" />
+      <PackageReference Update="xunit.runner.visualstudio" Version="2.8.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
 </Project>
