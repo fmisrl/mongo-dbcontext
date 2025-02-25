@@ -3,7 +3,7 @@
 definitions:
   services:
     mongodb:
-      image: mongo
+      image: mongo:8.0.5
       environment:
         MONGO_INITDB_ROOT_USERNAME: mongoadmin
         MONGO_INITDB_ROOT_PASSWORD: mysupersecretpassword
