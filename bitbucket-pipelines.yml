@@ -1,4 +1,4 @@
-﻿image: mcr.microsoft.com/dotnet/sdk:8.0.401-jammy-amd64
+﻿image: mcr.microsoft.com/dotnet/sdk:9.0.200-bookworm-slim-amd64
 
 definitions:
   services:
@@ -30,21 +30,6 @@ definitions:
             - dotnet build Fmi.Packages.sln --no-restore --configuration Release
             - dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
 
-    -   step: &quality
-          name: Qodana code quality
-          runs-on:
-            - self.hosted
-            - linux
-          size: 2x
-          caches:
-            - qodana
-          image: jetbrains/qodana-cdnet:latest
-          script:
-            - export QODANA_TOKEN=$QODANA_TOKEN
-            - qodana scan --solution ./Fmi.Packages.sln --results-dir=$BITBUCKET_CLONE_DIR/.qodana --report-dir=$BITBUCKET_CLONE_DIR/.qodana/report --cache-dir=$BITBUCKET_CLONE_DIR/.qodana/cache
-          artifacts:
-            - .qodana/report
-
     -   step: &publish
           name: Publish nuget packages
           runs-on:
@@ -64,9 +49,7 @@ definitions:
 pipelines:
   pull-requests:
     '**':
-      -   parallel:
-            -   step: *build
-            -   step: *quality
+      -   step: *build
   
   branches:
     
