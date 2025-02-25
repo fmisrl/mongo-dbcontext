@@ -41,14 +41,6 @@ public abstract class BsonDbContext<TContext> : IDbContext where TContext : Bson
     {
         var mongoConnectionUrl = new MongoUrl(connectionString);
         var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
-        /*mongoClientSettings.ClusterConfigurator = cb =>
-        {
-            //cb.Subscribe<CommandStartedEvent>(e =>
-            //    Console.WriteLine($"{e.CommandName} - {e.Command.ToJson()}"));
-
-            //cb.Subscribe<CommandSucceededEvent>(e =>
-            //    Console.WriteLine($"{e.CommandName} - {e.Reply.ToJson()}"));
-        };*/
 
         _mongoClient ??= new MongoClient(mongoClientSettings);
 

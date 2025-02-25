@@ -2,7 +2,7 @@
 
 public class DatabaseFixture : IAsyncLifetime
 {
-    public ITestDbContext DbContext { get; private set; }
+    public ITestDbContext DbContext { get; private set; } = null!;
 
     private string _databaseName = null!;
 
