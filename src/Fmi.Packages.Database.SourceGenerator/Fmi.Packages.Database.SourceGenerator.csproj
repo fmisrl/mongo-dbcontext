@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <IsRoslynComponent>true</IsRoslynComponent>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		
+		<TargetFramework>netstandard2.0</TargetFramework>
 
-        <RootNamespace>Fmi.Packages.Database.SourceGenerator</RootNamespace>
+		<RootNamespace>Fmi.Packages.Database.SourceGenerator</RootNamespace>
         <PackageId>Fmi.Packages.Database.SourceGenerator</PackageId>
-
+        
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
@@ -16,7 +19,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
     </ItemGroup>
 
     <ItemGroup>

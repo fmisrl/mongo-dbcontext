@@ -48,17 +48,17 @@ public class DbContextSourceGenerator : IIncrementalGenerator
 
             if (dbContextInterfaceFound.Length > 1)
             {
-                var tooManyDbContextFound = new DiagnosticDescriptor("DBCTX002",
+                var tooManyDbContextFound1 = new DiagnosticDescriptor("DBCTX002",
                     "Too many dbContext interfaces found",
                     "Too many dbContext interfaces found",
                     "SourceGenerator",
                     DiagnosticSeverity.Error,
                     true);
 
-                var tooManyDbContextFoundErrorInstance =
-                    Diagnostic.Create(tooManyDbContextFound, classDeclarationSyntax.GetLocation());
+                var tooManyDbContextFoundErrorInstancea =
+                    Diagnostic.Create(tooManyDbContextFound1, classDeclarationSyntax.GetLocation());
 
-                ctx.ReportDiagnostic(tooManyDbContextFoundErrorInstance);
+                ctx.ReportDiagnostic(tooManyDbContextFoundErrorInstancea);
                 continue;
             }
 
