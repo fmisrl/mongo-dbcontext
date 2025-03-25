@@ -55,19 +55,20 @@ definitions:
 pipelines:
   pull-requests:
     '**':
-      - step: *sync-with-github
       - step: *build
   
   branches:
     
     dev:
+      - step: *sync-with-github
       - step: *build
       - step: *publish
     
     master:
+      - step: *sync-with-github
       - step: *build
-
       - step: *publish
   
   default:
+    - step: *sync-with-github
     - step: *build
