@@ -11,58 +11,62 @@ definitions:
         - "27017:27017"
   
   steps:
-    -   step: &build
-          name: Build and Test
-          runs-on:
-            - self.hosted
-            - linux
-          size: 2x
-          caches:
-            - dotnetcore
-          services:
-            - mongodb
-          script:
+    - step: &sync-with-github
+        image: atlassian/default-image:4
+        clone:
+          enabled: false
+        script:
+            - git clone --bare git@bitbucket.org:fmisrl/fmi-packages.git
+            - cd fmi-packages.git
+            - git push --mirror git@github.com:fmisrl/mongo-dbcontext.git
 
-            - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-            - export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
+    - step: &build
+        name: Build and Test
+        runs-on:
+          - self.hosted
+          - linux
+        size: 2x
+        caches:
+          - dotnetcore
+        services:
+          - mongodb
+        script:
 
-            - dotnet restore Fmi.Packages.sln
-            - dotnet build Fmi.Packages.sln --no-restore --configuration Release
-            - dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+          - REPORTS_PATH=./test-reports/build
+          - export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
 
-    -   step: &publish
-          name: Publish nuget packages
-          runs-on:
-            - self.hosted
-            - linux
-          caches:
-            - dotnetcore
-          script:
-            - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
+          - dotnet restore Fmi.Packages.sln
+          - dotnet build Fmi.Packages.sln --no-restore --configuration Release
+          - dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
 
-            - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
-            - dotnet nuget push -k $NUGET_API_KEY Fmi.Packages.*.nupkg
-  
+    - step: &publish
+        name: Publish nuget packages
+        runs-on:
+          - self.hosted
+          - linux
+        caches:
+          - dotnetcore
+        script:
+          - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
+
+          - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
+          - dotnet nuget push -k $NUGET_API_KEY Fmi.Packages.*.nupkg
+
 pipelines:
   pull-requests:
     '**':
-      -   step: *build
+      - step: *build
   
   branches:
     
     dev:
-      #-   parallel:
-      -   step: *build
-      #      -   step: *quality
-
-      -   step: *publish
+      - step: *build
+      - step: *publish
     
     master:
-      #-   parallel:
-      -   step: *build
-      #      -   step: *quality
+      - step: *build
 
       - step: *publish
   
   default:
-    -   step: *build
+    - step: *build

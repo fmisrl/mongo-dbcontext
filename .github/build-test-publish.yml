@@ -1,0 +1,40 @@
+﻿name: Build, test and publish
+on:
+  - push
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix: 
+        dotnet-version: ['6.x', '8.x', '9.x']
+        mongodb-version: ['7.0', '8.0']
+    
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          cache: true
+          
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.12.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-username: mongoadmin
+          mongodb-password: mysupersecretpassword
+    
+  publish: 
+      #- name: REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+      #- export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
+
+      #- dotnet restore Fmi.Packages.sln
+      #- dotnet build Fmi.Packages.sln --no-restore --configuration Release
+      #- dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+
+      #- if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
+
+      #- dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
+      #- dotnet nuget push Fmi.Packages.*.nupkg -k $NUGET_API_KEY --source https://api.nuget.org/v3/index.json

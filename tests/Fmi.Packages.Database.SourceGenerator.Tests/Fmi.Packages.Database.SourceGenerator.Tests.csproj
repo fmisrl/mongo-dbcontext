@@ -1,25 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Fmi.Packages.Database.Abstractions\Fmi.Packages.Database.Abstractions.csproj" />
-        <ProjectReference Include="..\..\src\Fmi.Packages.Database.SourceGenerator\Fmi.Packages.Database.SourceGenerator.csproj" 
+        <ProjectReference Include="..\..\src\Fmi.Packages.Database.Abstractions\Fmi.Packages.Database.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\src\Fmi.Packages.Database.SourceGenerator\Fmi.Packages.Database.SourceGenerator.csproj"
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Update="JunitXml.TestLogger" Version="6.0.0" />
-      <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-      <PackageReference Update="Moq" Version="4.20.72" />
-      <PackageReference Update="xunit" Version="2.9.3" />
-      <PackageReference Update="xunit.runner.visualstudio" Version="3.0.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="coverlet.collector" Version="6.0.4">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Microsoft.Extensions.Http" Version="9.0.2" />
     </ItemGroup>
 
 </Project>
