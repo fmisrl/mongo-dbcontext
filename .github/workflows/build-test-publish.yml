@@ -26,12 +26,9 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-username: mongoadmin
           mongodb-password: mysupersecretpassword
-
-      - name: Restore dependencies
-        run: dotnet restore Fmi.Packages.sln
       
-      - name: Build projects
-        run: dotnet build Fmi.Packages.sln --no-restore --configuration Release
+      - name: Build and restore projects
+        run: dotnet build Fmi.Packages.sln --configuration Release
         
       - name: Test projects
         run: dotnet test Fmi.Packages.sln --no-build --configuration Release
