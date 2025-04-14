@@ -13,9 +13,6 @@ definitions:
   steps:
     - step: &sync-with-github
         name: Sync with Github
-        runs-on:
-          - self.hosted
-          - linux
         image: atlassian/default-image:4
         clone:
           enabled: false
@@ -26,9 +23,6 @@ definitions:
 
     - step: &build
         name: Build and Test
-        runs-on:
-          - self.hosted
-          - linux
         size: 2x
         caches:
           - dotnetcore
@@ -45,9 +39,6 @@ definitions:
 
     - step: &publish
         name: Publish nuget packages
-        runs-on:
-          - self.hosted
-          - linux
         caches:
           - dotnetcore
         script:
