@@ -1,19 +1,9 @@
-﻿image: mcr.microsoft.com/dotnet/sdk:9.0.200-bookworm-slim-amd64
+﻿image: atlassian/default-image:4
 
 definitions:
-  services:
-    mongodb:
-      image: mongo:8.0.5
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: mongoadmin
-        MONGO_INITDB_ROOT_PASSWORD: mysupersecretpassword
-      ports:
-        - "27017:27017"
-  
   steps:
     - step: &sync-with-github
         name: Sync with Github
-        image: atlassian/default-image:4
         clone:
           enabled: false
         script:
@@ -21,49 +11,7 @@ definitions:
             - cd fmi-packages.git
             - git push --mirror git@github.com:fmisrl/mongo-dbcontext.git
 
-    - step: &build
-        name: Build and Test
-        size: 2x
-        caches:
-          - dotnetcore
-        services:
-          - mongodb
-        script:
-
-          - REPORTS_PATH=./test-reports/build
-          - export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
-
-          - dotnet restore Fmi.Packages.sln
-          - dotnet build Fmi.Packages.sln --no-restore --configuration Release
-          - dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
-
-    - step: &publish
-        name: Publish nuget packages
-        caches:
-          - dotnetcore
-        script:
-          - if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
-
-          - dotnet pack ./Fmi.Packages.sln -o . --configuration Release -p:VersionSuffix=".$BITBUCKET_BUILD_NUMBER$suffix"
-          - dotnet nuget push -k $NUGET_API_KEY Fmi.Packages.*.nupkg
-
-pipelines:
-  pull-requests:
-    '**':
-      - step: *build
   
-  branches:
-    
-    dev:
-      - step: *sync-with-github
-      - step: *build
-      - step: *publish
-    
-    master:
-      - step: *sync-with-github
-      - step: *build
-      - step: *publish
-  
+pipelines:  
   default:
     - step: *sync-with-github
-    - step: *build
