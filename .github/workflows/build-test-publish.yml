@@ -26,14 +26,21 @@ jobs:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-username: mongoadmin
           mongodb-password: mysupersecretpassword
+
+      - name: Restore dependencies
+        run: dotnet restore Fmi.Packages.sln
+      
+      - name: Build projects
+        run: dotnet build Fmi.Packages.sln --no-restore --configuration Release
+        
+      - name: Test projects
+        run: dotnet test Fmi.Packages.sln --no-build --configuration Release
     
   #publish: 
       #- name: REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
       #- export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
 
-      #- dotnet restore Fmi.Packages.sln
-      #- dotnet build Fmi.Packages.sln --no-restore --configuration Release
-      #- dotnet test Fmi.Packages.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+      #
 
       #- if [ "$BITBUCKET_BRANCH" == "dev" ]; then suffix="-alpha"; else suffix=""; fi
 
