@@ -13,6 +13,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+        
       - name: Setup .NET ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v4
         with:
@@ -26,7 +27,7 @@ jobs:
           mongodb-username: mongoadmin
           mongodb-password: mysupersecretpassword
     
-  publish: 
+  #publish: 
       #- name: REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
       #- export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
 
