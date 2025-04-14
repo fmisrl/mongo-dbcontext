@@ -18,8 +18,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-          cache: true
-          cache-dependency-path: '**/packages.lock.json'
+          cache: false
           
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.12.0
