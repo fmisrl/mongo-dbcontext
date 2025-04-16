@@ -8,7 +8,6 @@ jobs:
     
     strategy:
       matrix: 
-        dotnet-version: ['9']
         mongodb-version: ['7.0', '8.0']
     
     steps:
@@ -17,7 +16,7 @@ jobs:
       - name: Setup .NET ${{ matrix.dotnet-version }}.x
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}.x
+          dotnet-version: '9.x'
           cache: false
           
       - name: Start MongoDB
@@ -28,10 +27,10 @@ jobs:
           mongodb-password: mysupersecretpassword
       
       - name: Build and restore projects
-        run: dotnet build Fmi.Packages.sln --configuration Release --framework net${{ matrix.dotnet-version }}.0
+        run: dotnet build Fmi.Packages.sln --configuration Release
         
       - name: Test projects
-        run: dotnet test Fmi.Packages.sln --no-build --configuration Release --framework net${{ matrix.dotnet-version }}.0
+        run: dotnet test Fmi.Packages.sln --no-build --configuration Release
     
   #publish: 
       #- name: REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
