@@ -1,24 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <ItemGroup>
+        <PackageReference Include="Meziantou.Polyfill" Version="1.0.43">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.3"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
     </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.2"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2"/>
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
       <ProjectReference Include="..\Fmi.Packages.ReflectionHelpers\Fmi.Packages.ReflectionHelpers.csproj" />
     </ItemGroup>
