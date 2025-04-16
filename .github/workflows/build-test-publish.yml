@@ -30,11 +30,13 @@ jobs:
         run: dotnet build Fmi.Packages.sln --configuration Release
         
       - name: Test projects
+        env:
+          ConnectionStrings__Default: mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
         run: dotnet test Fmi.Packages.sln --no-build --configuration Release
     
   #publish: 
       #- name: REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-      #- export ConnectionStrings__Default=mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
+      #- 
 
       #
 
