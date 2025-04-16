@@ -27,12 +27,12 @@ jobs:
           mongodb-password: mysupersecretpassword
       
       - name: Build and restore projects
-        run: dotnet build Fmi.Packages.sln --configuration Release
+        run: dotnet build FmiSrl.MongoDbContext.sln --configuration Release
         
       - name: Test projects
         env:
           ConnectionStrings__Default: mongodb://mongoadmin:mysupersecretpassword@localhost:27017/?connectTimeoutMS=6000
-        run: dotnet test Fmi.Packages.sln --no-build --configuration Release --logger trx --results-directory "TestResults-mongodb${{ matrix.mongodb-version }}"
+        run: dotnet test FmiSrl.MongoDbContext.sln --no-build --configuration Release --logger trx --results-directory "TestResults-mongodb${{ matrix.mongodb-version }}"
       
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
@@ -55,10 +55,10 @@ jobs:
           cache: false
 
       - name: Build
-        run: dotnet build Fmi.Packages.sln --configuration Release
+        run: dotnet build FmiSrl.MongoDbContext.sln --configuration Release
         
       - name: Pack
-        run: dotnet pack Fmi.Packages.sln --configuration Release -o out
+        run: dotnet pack FmiSrl.MongoDbContext.sln --configuration Release -o out
         
       - name: Upload to Nuget
         run: dotnet nuget push out/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
