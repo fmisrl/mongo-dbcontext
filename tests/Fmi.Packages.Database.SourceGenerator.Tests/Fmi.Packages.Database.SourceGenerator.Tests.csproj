@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\Fmi.Packages.Database.Abstractions\Fmi.Packages.Database.Abstractions.csproj"/>
-        <ProjectReference Include="..\..\src\Fmi.Packages.Database.SourceGenerator\Fmi.Packages.Database.SourceGenerator.csproj"
-                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
-    </ItemGroup>
-
-</Project>

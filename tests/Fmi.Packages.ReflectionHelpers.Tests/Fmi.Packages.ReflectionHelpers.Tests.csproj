@@ -1,7 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\Fmi.Packages.ReflectionHelpers\Fmi.Packages.ReflectionHelpers.csproj" />
-    </ItemGroup>
-   
-</Project>

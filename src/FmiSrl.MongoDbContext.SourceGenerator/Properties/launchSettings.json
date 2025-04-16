@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "DebugRoslynSourceGenerator": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "../FmiSrl.MongoDbContext.SourceGenerator.Sample/FmiSrl.MongoDbContext.SourceGenerator.Sample.csproj"
+    }
+  }
+}
