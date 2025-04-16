@@ -6,6 +6,5 @@
         <LangVersion>12</LangVersion>
         <Version>1.9.0</Version>
         <IsPackable>false</IsPackable>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
 </Project>
