@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>12</LangVersion>
-        <Version>1.9.0</Version>
+        <Version>1.9.1</Version>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 </Project>
