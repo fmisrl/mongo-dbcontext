@@ -5,6 +5,7 @@ namespace FmiSrl.MongoDbContext.SourceGenerator.Tests;
 
 public interface ITestDbContext : IDbContext
 {
+    [Abstractions.Collection("TestObjects")]
     IMongoCollection<TestObject> TestObjects { get; }
     
     IMongoCollection<TestGenericObject<string>> TestGenericObjects { get; }
