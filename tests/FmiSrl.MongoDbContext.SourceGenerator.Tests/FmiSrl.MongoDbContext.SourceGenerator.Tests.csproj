@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\FmiSrl.MongoDbContext.Abstractions\FmiSrl.MongoDbContext.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\src\FmiSrl.MongoDbContext.Abstractions\FmiSrl.MongoDbContext.Abstractions.csproj" />
         <ProjectReference Include="..\..\src\FmiSrl.MongoDbContext.SourceGenerator\FmiSrl.MongoDbContext.SourceGenerator.csproj"
                           OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>

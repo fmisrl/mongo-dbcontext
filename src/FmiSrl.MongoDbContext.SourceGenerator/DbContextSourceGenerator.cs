@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Immutable;
 using System.Text;
 using System.Text.RegularExpressions;
+using FmiSrl.MongoDbContext.SourceGenerator.Consts;
 using FmiSrl.MongoDbContext.SourceGenerator.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,7 +23,7 @@ public class DbContextSourceGenerator : IIncrementalGenerator
             .Select((t, _) => t.Item1);
 
         context.RegisterSourceOutput(context.CompilationProvider.Combine(dbContextProvider.Collect()),
-            ((ctx, t) => GenerateCode(ctx, t.Left, t.Right)));
+            (ctx, t) => GenerateCode(ctx, t.Left, t.Right));
     }
 
     private void GenerateCode(SourceProductionContext ctx, Compilation compilation,
@@ -38,8 +36,8 @@ public class DbContextSourceGenerator : IIncrementalGenerator
 
             var dbContextInterfaceFound = dbContextSymbolInfo.AllInterfaces.Where(interfaceSymbol =>
                     interfaceSymbol.AllInterfaces.Any(x =>
-                        x.Name == "IDbContext"
-                        && x.ContainingNamespace.ToDisplayString() == "FmiSrl.MongoDbContext.Abstractions"
+                        x.Name == AbstractionProjectConsts.DbContextInterfaceName
+                        && x.ContainingNamespace.ToDisplayString() == AbstractionProjectConsts.AbstractionsNamespace
                     )
                 )
                 .ToArray();
@@ -131,7 +129,7 @@ public class DbContextSourceGenerator : IIncrementalGenerator
 
                     if (attributeSymbol.Type?.Name == "CollectionAttribute" &&
                         attributeSymbol.Type.ContainingNamespace.ToDisplayString() ==
-                        "FmiSrl.MongoDbContext.Abstractions")
+                        AbstractionProjectConsts.AbstractionsNamespace)
                     {
                         var collectionNameArgument = attributeSyntax.ArgumentList?.Arguments.FirstOrDefault();
                         
@@ -221,8 +219,8 @@ public class DbContextSourceGenerator : IIncrementalGenerator
         }
 
         var dbContextInterfaceFound = namedTypeSymbol.AllInterfaces.Any(x =>
-            x.Name == "IDbContext"
-            && x.ContainingNamespace.ToDisplayString() == "FmiSrl.MongoDbContext.Abstractions"
+            x.Name == AbstractionProjectConsts.DbContextInterfaceName
+            && x.ContainingNamespace.ToDisplayString() == AbstractionProjectConsts.AbstractionsNamespace
         );
 
         return (interfaceDeclarationSyntax, dbContextInterfaceFound);
@@ -242,8 +240,8 @@ public class DbContextSourceGenerator : IIncrementalGenerator
         var dbContextInterfaceFound = namedTypeSymbol.AllInterfaces.Any(interfaceSymbol =>
             {
                 return interfaceSymbol.AllInterfaces.Any(x =>
-                    x.Name == "IDbContext"
-                    && x.ContainingNamespace.ToDisplayString() == "FmiSrl.MongoDbContext.Abstractions"
+                    x.Name == AbstractionProjectConsts.DbContextInterfaceName
+                    && x.ContainingNamespace.ToDisplayString() == AbstractionProjectConsts.AbstractionsNamespace
                 );
             }
         );
