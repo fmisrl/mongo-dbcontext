@@ -8,7 +8,7 @@ This package fills a gap in the MongoDB driver by providing a convenient way to 
 
 | Version | .NET SDK       | MongoDB* | MongoDB Driver |
 |---------|----------------|----------|----------------|
-| 1.9     | netstandard2.0 | 7, 8     | 3              |
+| >= 1.9  | netstandard2.0 | 7, 8     | 3              |
 
 *this version is included in our integration tests. You may try connecting to other compatible driver versions, but stability and compatibility are not guaranteed. 
 
